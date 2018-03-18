@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from .models import Product
 from .forms import ProductForm
 from django.contrib import messages
@@ -15,8 +15,8 @@ def productlist(request):
 	}
 	return render(request, 'product_list.html', context)
 
-def productdetail(request, product_id):
-	form = Product.objects.get(id=product_id)
+def productdetail(request, product_slug):
+	form = get_object_or_404(Product, slug=product_slug)
 
 	context = {
 	"form": form
