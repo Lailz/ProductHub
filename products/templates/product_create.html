@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Create</title>
+</head>
+<body>
+	 <form action="{% url 'products:product_create' %}" class="text-info" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{create_form.as_p}}
+    <input type="submit" value="Create" class="btn btn-info">
+	</form>
+</body>
+</html>

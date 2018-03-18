@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>List</title>
+</head>
+<body>
+	{% for x in form %}
+		<img class="card-img-top thumbnail" src="{{x.image.url}}" alt="Card image cap">
+		<h3>Name: {{x.name}}</h3>
+		<h3>Price: {{x.price}}</h3>
+		<h3>Category: {{x.category}} </h3>
+	{% endfor %}
+</body>
+</html>
