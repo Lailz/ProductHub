@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.template.defaultfilters import slugify
 from django.db.models.signals import pre_save
 from django.contrib.auth.models import User
@@ -26,7 +27,7 @@ class Product(models.Model):
 		return self.name
 
 	def get_absolute_url(self):
-		return reverse("products:detail", kwargs={"product_slug": self.slug})
+		return reverse("products:product_detail", kwargs={"product_slug": self.slug})
 
 def create_slug(instance, new_slug=None):
 	slug = slugify (instance.name)

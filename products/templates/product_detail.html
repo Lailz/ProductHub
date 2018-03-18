@@ -1,14 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>List</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}
+Detail
+{% endblock title %}
+
+
+{% block code %}
 	<img class="card-img-top thumbnail" src="{{form.image.url}}" alt="Card image cap">
 	<h3>Name: {{form.name}}</h3>
 	<h3>Price: {{form.price}}</h3>
 	<h3>Category: {{form.category}} </h3>
 	<h3>Sold by: {{form.seller}}</h3>
-
-</body>
-</html>
+{% endblock code %}

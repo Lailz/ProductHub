@@ -29,9 +29,38 @@ def productcreate(request):
 		form = ProductForm(request.POST, request.FILES or None)
 		if form.is_valid():
 			form.save()
+			messages.success(request, "Product successfully added!")
 			return redirect("products:product_list")
 	context = {
 		"create_form": form,
 	}
 	return render(request, 'product_create.html', context)
+
+def productupdate(request, product_slug):
+	instance = get_object_or_404(Product, slug=product_slug)
+	form = ProductForm(request.POST or None, request.FILES or None, instance = instance)
+	if form.is_valid():
+		form.save()
+		messages.success(request, "Product successfully updated!")
+		return redirect(instance.get_absolute_url())
+
+	context = {
+		"form": form,
+		"instance": instance
+	}
+	return render(request, 'product_update.html', context)
+
+def productdelete(request, product_slug):
+	instance = get_object_or_404(Product, slug=product_slug)
+	instance.delete()
+	messages.success(request, "Product Successfully Deleted!")
+	return redirect("products:product_list")
+
+
+
+
+
+
+
+
 

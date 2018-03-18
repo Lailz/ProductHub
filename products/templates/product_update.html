@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}
+Product Update
+{% endblock title %}
+
+
+{% block code %}
+	<form class = "text-info" action = "{% url 'products:product_update' product_slug=instance.slug %}" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{form.as_p}}
+		<input class = "btn btn-info" type="submit" value="Update">
+	</form>
+
+
+{% endblock code%}
