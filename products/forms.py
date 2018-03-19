@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product
+from .models import Product, Profile
 from django.contrib.auth.models import User
 
 class ProductForm(forms.ModelForm):
@@ -18,3 +18,7 @@ class UserRegisterForm(forms.ModelForm):
 		widgets = {
 			"password": forms.PasswordInput()
 		}
+class ProfileForm(forms.ModelForm):
+	class Meta:
+		model = Profile
+		fields = ['user', 'bio', 'birthday']

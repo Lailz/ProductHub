@@ -22,7 +22,7 @@ class Product(models.Model):
 		default='electronics',
 		)
 	image = models.ImageField(null=True)
-	seller = models.ForeignKey(User, default=1, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, default=1, on_delete=models.CASCADE)
 
 	def __str__(self):
 		return self.name

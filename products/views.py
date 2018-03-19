@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from .models import Product
-from .forms import ProductForm, LoginForm, UserRegisterForm
+from .forms import ProductForm, LoginForm, UserRegisterForm, ProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
@@ -43,6 +43,16 @@ def userlogin(request):
 def userlogout(request):
 	logout(request)
 	return redirect('user_login')
+
+def profileupdate(request):
+	if request.method == 'POST':
+		user_form = UserRegisterForm(request.POST, instance=request.user)
+		profile_form = ProfileForm(request.POST, instance=request.user.profile)
+		if user_form.is_valid() and profile_form.is_valid():
+			user_form.save()
+			profile_form.save()
+			messages.success(request, "Your profile was successfully updated!")
+			return redirect("products:product_list")
 
 
 def productlist(request):
