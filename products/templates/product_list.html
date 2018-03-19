@@ -7,6 +7,14 @@ List
 
 {% block code %}
 
+	<div class="jumbotron jumbotron-fluid jumb bg-dark">
+  		<div class="container">
+  			<h1 class="display-4 text-white">Welcome to ProductHub!</h1>
+   			<p class="lead text-white">Manage your products</p>
+   			<a href="{% url 'products:product_create' %}"  ><button class="btn btn-dark">Add another product </button> </a>
+ 		 </div>
+	</div>
+
 	{% for x in form %}
 		<img class="card-img-top thumbnail" src="{{x.image.url}}" alt="Card image cap">
 		<h3>Name: {{x.name}}</h3>
