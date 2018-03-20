@@ -16,7 +16,17 @@ Profile View
 		<li>Username: {{ user.username }}</li>
 		<li>Birthday: {{ user.profile.birthday }}</li>
 		<li>Bio: {{ user.profile.bio }}</li>
+
 	</ul>
 	<a href="{% url 'profile_update' %}" class="btn btn-outline-dark"> Update</a>
+	<br>
+	<br>
+	{% for x in post %}
+		<a href="/products/detail/{{x.id}}/">
+			<img class="card-img-top thumbnail" src="{{x.image.url}}" alt="Card image cap">
+		</a>
+		<br>
+
+	{% endfor %}
 
 {% endblock code %}

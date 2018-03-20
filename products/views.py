@@ -49,9 +49,11 @@ def userlogout(request):
 
 def profileview(request, user_id):
 	form = User.objects.get(pk=user_id)
+	post = Product.objects.filter(user=form)
 
 	context = {
 		"user": form,
+		"post": post
 	}
 
 	return render(request, 'profile_view.html', context)
