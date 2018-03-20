@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
-from .models import Product, Profile
+from .models import Product, Profile, FavoriteProduct
 from django.contrib.auth.models import User
 from .forms import ProductForm, LoginForm, UserRegisterForm, UserUpdateForm, PasswordUpdateForm, EmailUpdateForm, ProfileForm
 from django.contrib.auth import authenticate, login, logout
@@ -85,8 +85,14 @@ def productlist(request):
 	if query:
 		form = form.filter(name__contains=query)
 
+	favorite_products = []
+	favorites = request.user.favoriteproduct_set.all()
+	for fav in favorites:
+		favorite_products.append(fav.product)
+
 	context = {
-	"form": form
+	"form": form,
+	"my_favorites": favorite_products
 	}
 	return render(request, 'product_list.html', context)
 
@@ -132,6 +138,23 @@ def productdelete(request, product_slug):
 		messages.success(request, "Product Successfully Deleted!")
 		return redirect("products:product_list")
 
+def favoriteproduct(request, product_id):
+	instance = get_object_or_404(Product, id=product_id)
+	favorite_obj, created = FavoriteProduct.objects.get_or_create(user=request.user, product=instance)
+
+	if created:
+		action="favorite"
+	else:
+		action="unfavorite"
+		favorite_obj.delete()
+
+	favorite_count = instance.favoriteproduct_set.all().count()
+
+	context = {
+		"action": action,
+		"count": favorite_count,
+	}
+	return JsonResponse(context, safe=False)
 
 
 
