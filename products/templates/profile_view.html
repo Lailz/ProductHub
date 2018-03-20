@@ -10,23 +10,48 @@ Profile View
 {% block code %}
 	<br>
 	<h3>{{ user.first_name }} {{ user.last_name }}</h3>
-	<img class="card-img-top thumbnail" src="{{user.profile.image.url}}" alt="Card image cap">
+	<table>
+		<tr>
+			<td>
+				<div class="col-lg-4">
+					<div class="card list-card">
+						<img class="card-img-top thumbnail" src="{{user.profile.image.url}}" alt="Card image cap">
+					</div>
+				</div>
+			</td>
+			<td class="text-align:left">
 
-	<ul>
-		<li>Username: {{ user.username }}</li>
-		<li>Birthday: {{ user.profile.birthday }}</li>
-		<li>Bio: {{ user.profile.bio }}</li>
-
-	</ul>
-	<a href="{% url 'profile_update' %}" class="btn btn-outline-dark"> Update</a>
+				<ul>
+					<li>Username: {{ user.username }}</li>
+					<li>Birthday: {{ user.profile.birthday }}</li>
+					<li>Bio: {{ user.profile.bio }}</li>
+					<a href="{% url 'profile_update' %}" class="btn btn-outline-dark"> Update</a>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	
 	<br>
 	<br>
+<div class="row">
 	{% for x in post %}
-		<a href="/products/detail/{{x.slug}}/">
-			<img class="card-img-top thumbnail" src="{{x.image.url}}" alt="Card image cap">
-		</a>
-		<br>
+		<div class="col-lg-4">
+			<div class="card list-card">
+				<a href="/products/detail/{{x.slug}}/">
+					<img class="card-img-top thumbnail" src="{{x.image.url}}" alt="Card image cap">
+				</a>
 
+			</div>
+		</div>
 	{% endfor %}
+</div>
+
+
+
+
+
+
+
+
 
 {% endblock code %}

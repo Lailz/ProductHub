@@ -126,10 +126,11 @@ def productupdate(request, product_slug):
 	return render(request, 'product_update.html', context)
 
 def productdelete(request, product_slug):
-	instance = get_object_or_404(Product, slug=product_slug)
-	instance.delete()
-	messages.success(request, "Product Successfully Deleted!")
-	return redirect("products:product_list")
+	if (request.user.is_authenticated):
+		instance = get_object_or_404(Product, slug=product_slug)
+		instance.delete()
+		messages.success(request, "Product Successfully Deleted!")
+		return redirect("products:product_list")
 
 
 
