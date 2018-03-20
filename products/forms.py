@@ -18,7 +18,31 @@ class UserRegisterForm(forms.ModelForm):
 		widgets = {
 			"password": forms.PasswordInput()
 		}
+
+class UserUpdateForm(forms.ModelForm):
+	class Meta:
+		model = User
+		fields = ['username', 'first_name', 'last_name']
+
+
+class PasswordUpdateForm(forms.ModelForm):
+	class Meta:
+		model = User
+		fields = ['password']
+		widgets = {
+			"password": forms.PasswordInput()
+		}
+
+class EmailUpdateForm(forms.ModelForm):
+	class Meta:
+		model = User
+		fields = ['email']
+
+
 class ProfileForm(forms.ModelForm):
 	class Meta:
 		model = Profile
-		fields = ['user', 'bio', 'birthday']
+		fields = ['bio', 'birthday', 'image']
+		widgets = {
+			"birthday": forms.DateInput(attrs={"type":"date"})
+		}

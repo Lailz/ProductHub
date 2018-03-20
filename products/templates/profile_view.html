@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Profile View
+
+{% endblock title %}
+
+
+{% block code %}
+	<br>
+	<h3>{{ user.first_name }} {{ user.last_name }}</h3>
+	<img class="card-img-top thumbnail" src="{{user.profile.image.url}}" alt="Card image cap">
+
+	<ul>
+		<li>Username: {{ user.username }}</li>
+		<li>Birthday: {{ user.profile.birthday }}</li>
+		<li>Bio: {{ user.profile.bio }}</li>
+	</ul>
+	<a href="{% url 'profile_update' %}" class="btn btn-outline-dark"> Update</a>
+
+{% endblock code %}

@@ -13,4 +13,6 @@ urlpatterns = [
     path('update/<slug:product_slug>/', views.productupdate, name='product_update'),
     path('delete/<slug:product_slug>/', views.productdelete, name='product_delete'),
 
+
+
 ]
