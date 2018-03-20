@@ -19,12 +19,14 @@ List
 		<div class="col-lg-4">
 			<div class="card list-card">
 				<img class="card-img-top thumbnail" src="{{x.image.url}}" alt="Card image cap">
-				<h3>Name: {{x.name}}</h3>
+				<a href="{{x.get_absolute_url}}" class="text-dark"><h3>{{x.name}}</h3></a>
 				<h3>Sold by: {{x.user}}</h3>
-				<h3>Price: {{x.price}}</h3>
+				<h3>Price: {{x.price}}KD</h3>
 				<h3>Category: {{x.category}} </h3>
-				<a href="{% url 'products:product_update' product_slug=x.slug %}" class="btn btn-outline-info"> Update</a>
-				<a href="{% url 'products:product_delete' product_slug=x.slug %}" class="btn btn-outline-info"> Delete</a>
+				<div class="btn-group" role="group" aria-label="Basic example">    				
+    				<a href="{% url 'products:product_update' product_slug=x.slug %}" class="btn btn-outline-info"> Update</a>
+					<a href="{% url 'products:product_delete' product_slug=x.slug %}" class="btn btn-outline-info"> Delete</a>
+				</div>
 			</div>
 		</div>
 	{% endfor %}
