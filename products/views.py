@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from .forms import ProductForm, LoginForm, UserRegisterForm, UserUpdateForm, PasswordUpdateForm, EmailUpdateForm, ProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 
 
 def test(request):
@@ -98,9 +98,11 @@ def productlist(request):
 
 def productdetail(request, product_slug):
 	form = get_object_or_404(Product, slug=product_slug)
+	user_obj = request.user
 
 	context = {
-	"form": form
+	"form": form,
+	"user_obj": user_obj
 	}
 	return render(request, 'product_detail.html', context)
 
@@ -119,11 +121,16 @@ def productcreate(request):
 
 def productupdate(request, product_slug):
 	instance = get_object_or_404(Product, slug=product_slug)
-	form = ProductForm(request.POST or None, request.FILES or None, instance = instance)
-	if form.is_valid():
-		form.save()
-		messages.success(request, "Product successfully updated!")
-		return redirect(instance.get_absolute_url())
+	user = request.user
+
+	if instance.user == user:
+		form = ProductForm(request.POST or None, request.FILES or None, instance = instance)
+		if form.is_valid():
+			form.save()
+			messages.success(request, "Product successfully updated!")
+			return redirect(instance.get_absolute_url())
+	else:
+			return HttpResponseForbidden()
 
 	context = {
 		"form": form,
@@ -134,9 +141,14 @@ def productupdate(request, product_slug):
 def productdelete(request, product_slug):
 	if (request.user.is_authenticated):
 		instance = get_object_or_404(Product, slug=product_slug)
-		instance.delete()
-		messages.success(request, "Product Successfully Deleted!")
-		return redirect("products:product_list")
+		user = request.user
+
+		if instance.user == user:
+			instance.delete()
+			messages.success(request, "Product Successfully Deleted!")
+			return redirect("products:product_list")
+		else:
+			return HttpResponseForbidden()
 
 def favoriteproduct(request, product_id):
 	instance = get_object_or_404(Product, id=product_id)

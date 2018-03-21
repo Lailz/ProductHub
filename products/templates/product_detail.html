@@ -11,10 +11,12 @@ Detail
 	<h3>Price: {{form.price}}KD</h3>
 	<h3>Category: {{form.category}} </h3>
 	<h3>Sold by: {{form.user}}</h3>
-	
-	<a href="{% url 'products:product_update' product_slug=form.slug %}" class="btn btn-outline-info"> Update</a>
-	<a href="{% url 'products:product_delete' product_slug=form.slug %}" class="btn btn-outline-info"> Delete</a>
-	<br><br>
+	{% if user_obj %}
+		<a href="{% url 'products:product_update' product_slug=form.slug %}" class="btn btn-outline-info"> Update</a>
+		<a href="{% url 'products:product_delete' product_slug=form.slug %}" class="btn btn-outline-info"> Delete</a>
+		<br><br>
+	{% endif %}
+
 	<a href="{% url 'products:product_list'%}" class="btn btn-outline-info"> Back</a>
 
 {% endblock %}
