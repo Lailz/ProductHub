@@ -99,20 +99,28 @@ def profileupdate(request):
 
 def productlist(request):
 	if (request.user.is_anonymous):
-		return redirect('user_login')
-	form = Product.objects.all()
-	query = request.GET.get('q')
+		form = Product.objects.order_by("name")[:10]
+		context = {
+		"form": form
+		}
+		return render(request, 'product_list.html', context)
+	else:
+		form = Product.objects.all()
+		user_obj = request.user
 
-	if query:
-		form = form.filter(name__contains=query)
+		query = request.GET.get('q')
 
-	favorite_products = []
-	favorites = request.user.favoriteproduct_set.all()
-	for fav in favorites:
-		favorite_products.append(fav.product)
+		if query:
+			form = form.filter(name__contains=query)
+
+		favorite_products = []
+		favorites = request.user.favoriteproduct_set.all()
+		for fav in favorites:
+			favorite_products.append(fav.product)
 
 	context = {
 	"form": form,
+	"user_obj": user_obj,
 	"my_favorites": favorite_products
 	}
 	return render(request, 'product_list.html', context)
@@ -130,6 +138,8 @@ def productdetail(request, product_slug):
 	return render(request, 'product_detail.html', context)
 
 def productcreate(request):
+	if (request.user.is_anonymous):
+		return redirect("user_login")
 	form = ProductForm()
 	if request.method == "POST":
 		form = ProductForm(request.POST, request.FILES or None)
