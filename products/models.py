@@ -30,6 +30,20 @@ class Product(models.Model):
 	def get_absolute_url(self):
 		return reverse("products:product_detail", kwargs={"product_slug": self.slug})
 
+	def _get_unique_slug(self):
+		slug = slugify(self.name)
+		unique_slug = slug
+		num = 1
+		while Product.objects.filter(slug=unique_slug).exists():
+			unique_slug = '{}-{}'.format(slug, num)
+			num += 1
+		return unique_slug
+
+	def save(self, *args, **kwargs):
+		if not self.slug:
+			self.slug = self._get_unique_slug()
+		super().save()
+
 class FavoriteProduct(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	product = models.ForeignKey(Product, on_delete=models.CASCADE)
