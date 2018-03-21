@@ -113,7 +113,9 @@ def productcreate(request):
 	if request.method == "POST":
 		form = ProductForm(request.POST, request.FILES or None)
 		if form.is_valid():
-			form.save()
+			item = form.save(commit = False)
+			item.user = request.user
+			item.save()
 			messages.success(request, "Product successfully added!")
 			return redirect("products:product_list")
 	context = {

@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class ProductForm(forms.ModelForm):
 	class Meta:
 		model = Product
-		exclude = ['seller']
+		exclude = ['user']
 
 class LoginForm(forms.Form):
 	username = forms.CharField(required=True)
