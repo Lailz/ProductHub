@@ -26,8 +26,23 @@ Profile View
 					<li>Birthday: {{ user.profile.birthday }}</li>
 					<li>Bio: {{ user.profile.bio }}</li>
 					<a href="{% url 'profile_update' %}" class="btn btn-outline-dark"> Update</a>
+					<a href="{% url 'profile_update' %}" class="btn btn-outline-dark"> Follow</a>
+
+					<button onclick="fol({{user.id}})">
+    					<span id="star_number-{{user.id}}">{{user.follow_set.count}}</span>
+    					<i id="star_color-{{user.id}}" class="{% if user in my_follows %}fas fa-star text-info{% else %} far fa-star{% endif %}"></i>
+    				</button>   
 				</ul>
 			</td>
+		</tr>
+		<tr>
+			<td>
+				<h4>Following: </h4>
+			</td>
+			<td>
+				<h4>Followers: </h4>
+			</td>
+
 		</tr>
 	</table>
 	
@@ -45,6 +60,35 @@ Profile View
 		</div>
 	{% endfor %}
 </div>
+
+<script>
+	function fol(id){
+		$.ajax({
+			type: "GET",
+			url: "/followuser/"+id,
+			error: function(){
+				console.log("ERROR!")
+			},
+			success: function(data){
+				console.log(data);
+				$("#star_number-"+id).text(data.count);
+				if (data.action==="followed"){
+					$("#star_color-"+id).addClass("text-info");
+					$("#star_color-"+id).addClass("fas");
+					$("#star_color-"+id).removeClass("far");
+				}
+				else{
+					$("#star_color-"+id).removeClass("text-info");
+					$("#star_color-"+id).removeClass("fas");
+					$("#star_color-"+id).addClass("far");
+				}
+
+			},
+				
+		})
+	}
+
+</script>
 
 
 {% endblock code %}

@@ -48,13 +48,28 @@ class FavoriteProduct(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
+class FollowUser(models.Model):
+	following = models.ForeignKey(User, related_name="who_follows", on_delete=models.CASCADE)
+	follower = models.ForeignKey(User, related_name="who_is_followed", on_delete=models.CASCADE)
+	follow_time = models.DateTimeField(auto_now=True, db_index=True)
+
+	def __unicode__(self):
+		return str(self.follow_time)
+
+	class Meta:
+		ordering = ('-follow_time',)
+
+	def __str__(self):
+		return    '{} follows {}'.format(self.following, self.follower)
+
+#User.add_to_class('following',models.ManyToManyField('self', through=Follow,related_name='followers', symmetrical=False))
+
 
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	bio = models.TextField(max_length=500, blank=True)
 	birthday = models.DateField(null=True, blank=True)
 	image = models.ImageField(null=True, blank=True)
-	follows = models.ManyToManyField('self', related_name='follow', symmetrical=False, null=True, blank=True)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -65,13 +80,9 @@ def create_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
 	instance.profile.save()
 
-class Follow(models.Model):
-      following = models.ForeignKey(User, related_name="who_follows", on_delete=models.CASCADE)
-      follower = models.ForeignKey(User, related_name="who_is_followed", on_delete=models.CASCADE)
-      follow_time = models.DateTimeField(auto_now=True)
 
-      def __unicode__(self):
-          return str(self.follow_time)
+
+
 
 def create_slug(instance, new_slug=None):
 	slug = slugify (instance.name)

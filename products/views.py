@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
-from .models import Product, Profile, FavoriteProduct
+from .models import Product, Profile, FavoriteProduct, FollowUser
 from django.contrib.auth.models import User
 from .forms import ProductForm, LoginForm, UserRegisterForm, UserUpdateForm, PasswordUpdateForm, EmailUpdateForm, ProfileForm
 from django.contrib.auth import authenticate, login, logout
@@ -51,9 +51,15 @@ def profileview(request, user_id):
 	form = User.objects.get(pk=user_id)
 	post = Product.objects.filter(user=form)
 
+	followed_users = []
+	follows = request.user.who_is_followed.all()
+	for x in follows:
+		followed_users.append(x.user)
+
 	context = {
 		"user": form,
-		"post": post
+		"post": post,
+		"my_follows": followed_users
 	}
 
 	return render(request, 'profile_view.html', context)
@@ -100,7 +106,7 @@ def productdetail(request, product_slug):
 	form = get_object_or_404(Product, slug=product_slug)
 	user_obj = False
 	if form.user == request.user:
-		x = True
+		user_obj = True
 
 	context = {
 	"form": form,
@@ -171,6 +177,25 @@ def favoriteproduct(request, product_id):
 		"count": favorite_count,
 	}
 	return JsonResponse(context, safe=False)
+
+def followuser(request, user_id):
+    instance = get_object_or_404(User, id=user_id, is_active=True)
+    follow_obj, created = FollowUser.objects.get_or_create(follower=request.user, following=instance)
+
+    if created:
+    	action="followed"
+    else:
+    	action="unfollow"
+    	follow_obj.delete()
+
+    follow_count = instance.who_is_followed.all().count()
+
+    context = {
+        "action": action,
+		"count": follow_count,
+    }
+    return JsonResponse(context, safe=False)
+
 
 
 

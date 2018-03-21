@@ -27,9 +27,11 @@ List
 					<button onclick="favor({{x.id}})">
     					<span id="star_number-{{x.id}}">{{x.favoriteproduct_set.count}}</span>
     					<i id="star_color-{{x.id}}" class="{% if x in my_favorites %}fas fa-star text-info{% else %} far fa-star{% endif %}"></i>
-    				</button>    				
-    				<a href="{% url 'products:product_update' product_slug=x.slug %}" class="btn btn-outline-info"> Update</a>
-					<a href="{% url 'products:product_delete' product_slug=x.slug %}" class="btn btn-outline-info"> Delete</a>
+    				</button>   
+    				{% if user_obj %} 				
+    					<a href="{% url 'products:product_update' product_slug=x.slug %}" class="btn btn-outline-info"> Update</a>
+						<a href="{% url 'products:product_delete' product_slug=x.slug %}" class="btn btn-outline-info"> Delete</a>
+					{% endif %}
 				</div>
 			</div>
 		</div>

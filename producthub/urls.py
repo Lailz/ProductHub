@@ -16,6 +16,8 @@ urlpatterns = [
     
     path('profileview/<int:user_id>/', views.profileview, name='profile_view'),
     path('profileupdate/', views.profileupdate, name='profile_update'),
+
+    path('followuser/<int:user_id>/', views.followuser, name='follow_user'),
 ]
 
 
