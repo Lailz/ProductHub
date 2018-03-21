@@ -51,18 +51,37 @@ def profileview(request, user_id):
 	form = User.objects.get(pk=user_id)
 	post = Product.objects.filter(user=form)
 
+	user_obj = False
+	if form.username == request.user:
+		user_obj = True
+
+
 	followed_users = []
-	follows = request.user.who_is_followed.all()
+	follows = request.user.following.all()
 	for x in follows:
-		followed_users.append(x.user)
+		print (x)
+		followed_users.append(x)
 
 	context = {
 		"user": form,
 		"post": post,
-		"my_follows": followed_users
+		"my_follows": followed_users,
+		"user_obj": request.user.id is form.id
 	}
 
 	return render(request, 'profile_view.html', context)
+
+def following(request, user_id):
+	user_obj = User.objects.get(id=user_id)
+	follows = user_obj.following.all()
+
+	print (user_obj)
+
+	context = {
+		"user_obj": user_obj,
+		"follows": follows,
+	}
+	return render(request, 'following.html', context)
 
 
 def profileupdate(request):
@@ -188,7 +207,7 @@ def followuser(request, user_id):
     	action="unfollow"
     	follow_obj.delete()
 
-    follow_count = instance.who_is_followed.all().count()
+    follow_count = instance.following.all().count()
 
     context = {
         "action": action,

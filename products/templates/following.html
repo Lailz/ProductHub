@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Following
+
+{% endblock title %}
+
+{% block code %}
+{% for x in follows %}
+	<h3>Username: {{ x.username }}</h3> <br>
+{% endfor %}
+
+{% endblock code %}

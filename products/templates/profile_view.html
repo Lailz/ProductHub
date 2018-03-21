@@ -8,47 +8,35 @@ Profile View
 
 
 {% block code %}
+<div class="row">
 	<br>
 	<h3>{{ user.first_name }} {{ user.last_name }}</h3>
+	<br>
 	<table>
 		<tr>
 			<td>
-				<div class="col-lg-4">
+				<div class="col-md-4">
 					<div class="card list-card">
 						<img class="card-img-top thumbnail" src="{{user.profile.image.url}}" alt="Card image cap">
 					</div>
 				</div>
 			</td>
-			<td class="text-align:left">
-
-				<ul>
-					<li>Username: {{ user.username }}</li>
-					<li>Birthday: {{ user.profile.birthday }}</li>
-					<li>Bio: {{ user.profile.bio }}</li>
+			<td width= 400px>
+					<h5>Username: {{ user.username }}</h5> <br>
+					<h5>Birthday: {{ user.profile.birthday }}</h5> <br>
+					<h5>Bio: {{ user.profile.bio }}</h5> <br>
+					<h5>Following</h5><br>
+					<h5>Followers</h5><br>
+					{% if user_obj %}
 					<a href="{% url 'profile_update' %}" class="btn btn-outline-dark"> Update</a>
-					<a href="{% url 'profile_update' %}" class="btn btn-outline-dark"> Follow</a>
-
-					<button onclick="fol({{user.id}})">
-    					<span id="star_number-{{user.id}}">{{user.follow_set.count}}</span>
-    					<i id="star_color-{{user.id}}" class="{% if user in my_follows %}fas fa-star text-info{% else %} far fa-star{% endif %}"></i>
-    				</button>   
-				</ul>
+					{% else %}
+					<button onclick="fol({{user.id}})" id="follow_text" class="btn btn-outline-dark">Follow <i ></i></button>  
+					{% endif %}
 			</td>
 		</tr>
-		<tr>
-			<td>
-				<h4>Following: </h4>
-			</td>
-			<td>
-				<h4>Followers: </h4>
-			</td>
 
-		</tr>
 	</table>
-	
-	<br><br>
-
-<div class="row">
+	<br><br><br>
 	{% for x in post %}
 		<div class="col-lg-4">
 			<div class="card list-card">
@@ -59,6 +47,7 @@ Profile View
 			</div>
 		</div>
 	{% endfor %}
+
 </div>
 
 <script>
@@ -71,16 +60,12 @@ Profile View
 			},
 			success: function(data){
 				console.log(data);
-				$("#star_number-"+id).text(data.count);
 				if (data.action==="followed"){
-					$("#star_color-"+id).addClass("text-info");
-					$("#star_color-"+id).addClass("fas");
-					$("#star_color-"+id).removeClass("far");
+					$(follow_text).text("Unfollow")
 				}
 				else{
-					$("#star_color-"+id).removeClass("text-info");
-					$("#star_color-"+id).removeClass("fas");
-					$("#star_color-"+id).addClass("far");
+					$(follow_text).text("Follow")
+			
 				}
 
 			},

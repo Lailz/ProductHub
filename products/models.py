@@ -49,8 +49,8 @@ class FavoriteProduct(models.Model):
 	product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
 class FollowUser(models.Model):
-	following = models.ForeignKey(User, related_name="who_follows", on_delete=models.CASCADE)
-	follower = models.ForeignKey(User, related_name="who_is_followed", on_delete=models.CASCADE)
+	following = models.ForeignKey(User, related_name="following", on_delete=models.CASCADE)
+	follower = models.ForeignKey(User, related_name="follower", on_delete=models.CASCADE)
 	follow_time = models.DateTimeField(auto_now=True, db_index=True)
 
 	def __unicode__(self):
@@ -60,7 +60,7 @@ class FollowUser(models.Model):
 		ordering = ('-follow_time',)
 
 	def __str__(self):
-		return    '{} follows {}'.format(self.following, self.follower)
+		return    '{} follows {}'.format(self.follower, self.following)
 
 #User.add_to_class('following',models.ManyToManyField('self', through=Follow,related_name='followers', symmetrical=False))
 
