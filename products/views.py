@@ -72,13 +72,9 @@ def profileview(request, user_id):
 	return render(request, 'profile_view.html', context)
 
 def following(request, user_id):
-	user_obj = User.objects.get(id=user_id)
-	follows = user_obj.following.all()
-
-	print (user_obj)
+	follows = request.user.follower.all()
 
 	context = {
-		"user_obj": user_obj,
 		"follows": follows,
 	}
 	return render(request, 'following.html', context)

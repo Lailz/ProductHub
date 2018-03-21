@@ -25,7 +25,7 @@ Profile View
 					<h5>Username: {{ user.username }}</h5> <br>
 					<h5>Birthday: {{ user.profile.birthday }}</h5> <br>
 					<h5>Bio: {{ user.profile.bio }}</h5> <br>
-					<h5>Following</h5><br>
+					<a href="/following/{{user.id}}/" class="text-dark"><h5>Following</h5></a>
 					<h5>Followers</h5><br>
 					{% if user_obj %}
 					<a href="{% url 'profile_update' %}" class="btn btn-outline-dark"> Update</a>
