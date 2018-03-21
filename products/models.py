@@ -51,6 +51,13 @@ def create_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
 	instance.profile.save()
 
+class Follow(models.Model):
+      following = models.ForeignKey(User, related_name="who_follows", on_delete=models.CASCADE)
+      follower = models.ForeignKey(User, related_name="who_is_followed", on_delete=models.CASCADE)
+      follow_time = models.DateTimeField(auto_now=True)
+
+      def __unicode__(self):
+          return str(self.follow_time)
 
 def create_slug(instance, new_slug=None):
 	slug = slugify (instance.name)
