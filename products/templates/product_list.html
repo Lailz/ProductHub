@@ -20,7 +20,7 @@ List
 			<div class="card list-card">
 				<img class="card-img-top thumbnail" src="{{x.image.url}}" alt="Card image cap">
 				<a href="{{x.get_absolute_url}}" class="text-dark"><h3>{{x.name}}</h3></a>
-				<h3>Sold by: {{x.user}}</h3>
+				<a href="/profileview/{{x.user.id}}/" class="text-dark"><h3>Sold by: {{x.user}}</h3></a>
 				<h3>Price: {{x.price}}KD</h3>
 				<h3>Category: {{x.category}} </h3>
 				<div class="btn-group" role="group" aria-label="Basic example">

@@ -98,7 +98,9 @@ def productlist(request):
 
 def productdetail(request, product_slug):
 	form = get_object_or_404(Product, slug=product_slug)
-	user_obj = request.user
+	user_obj = False
+	if form.user == request.user:
+		x = True
 
 	context = {
 	"form": form,
