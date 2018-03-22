@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Favorites
+
+{% endblock title %}
+
+
+{% block code %}
+
+	{% for x in favs %}
+		<h3>Product: {{ x.name }}</h3> <br>
+	{% endfor %}
+
+{% endblock code %}

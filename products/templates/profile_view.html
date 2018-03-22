@@ -8,6 +8,19 @@ Profile View
 
 
 {% block code %}
+	{% if user_obj %}
+		<div class="jumbotron jumbotron-fluid jumb bg-dark">
+  		<div class="container">
+  			<h1 class="display-4 text-white">Hello {{user.username}}</h1>
+   			<p class="lead text-white">Manage your profile and products</p>
+   			<a href="{% url 'products:product_create' %}"  ><button class="btn btn-dark">Add New Product </button> </a>
+   			<a href="{% url 'profile_update' %}" class="btn btn-dark"> Update Profile</a>
+
+ 		 </div>
+	</div>  
+	{% endif %}
+
+	
 <div class="row">
 	<br>
 	<h3>{{ user.first_name }} {{ user.last_name }}</h3>
@@ -26,10 +39,9 @@ Profile View
 					<h5>Birthday: {{ user.profile.birthday }}</h5> <br>
 					<h5>Bio: {{ user.profile.bio }}</h5> <br>
 					<a href="/following/{{user.id}}/" class="text-dark"><h5>Following</h5></a>
-					<h5>Followers</h5><br>
-					{% if user_obj %}
-					<a href="{% url 'profile_update' %}" class="btn btn-outline-dark"> Update</a>
-					{% else %}
+					<h5>Followers</h5>
+					<a href="/favorites/{{user.id}}/" class="text-dark"><h5>Favorites</h5></a>
+					{% if user_obj is False%}
 					<button onclick="fol({{user.id}})" id="follow_text" class="btn btn-outline-dark">Follow <i ></i></button>  
 					{% endif %}
 			</td>

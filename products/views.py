@@ -71,14 +71,31 @@ def profileview(request, user_id):
 
 	return render(request, 'profile_view.html', context)
 
-def following(request, user_id):
-	follows = request.user.follower.all()
+def followinguser(request, user_id):
+	us = User.objects.get(id=user_id)
+	follows = us.follower.all()
 
 	context = {
 		"follows": follows,
 	}
 	return render(request, 'following.html', context)
 
+def followeruser(request, user_id):
+	following = request.user.following.all()
+
+	context = {
+		"follows": follows,
+	}
+	return render(request, 'following.html', context)
+
+def favorites(request, user_id):
+	us = Product.objects.get(id=user_id)
+	favs = us.name.all()
+
+	context = {
+		"favs": favs,
+	}
+	return render(request, 'favorites.html', context)
 
 def profileupdate(request):
 	if request.method == 'POST':
@@ -100,11 +117,17 @@ def profileupdate(request):
 def productlist(request):
 	if (request.user.is_anonymous):
 		form = Product.objects.order_by("name")[:10]
+
+		query = request.GET.get('q')
+
+		if query:
+			form = form.filter(name__contains=query)
 		context = {
 		"form": form
 		}
 		return render(request, 'product_list.html', context)
 	else:
+		
 		form = Product.objects.all()
 		user_obj = request.user
 
@@ -202,6 +225,8 @@ def favoriteproduct(request, product_id):
 		"count": favorite_count,
 	}
 	return JsonResponse(context, safe=False)
+
+
 
 def followuser(request, user_id):
     instance = get_object_or_404(User, id=user_id, is_active=True)
