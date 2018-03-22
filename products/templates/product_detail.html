@@ -12,12 +12,12 @@ Detail
 	<h3>Category: {{form.category}} </h3>
 	<h3>Sold by: <a href="/profileview/{{form.user.id}}/" class="text-dark">{{form.user}}</a></h3>
 	{% if user_obj %}
-		<a href="{% url 'products:product_update' product_slug=form.slug %}" class="btn btn-outline-info"> Update</a>
-		<a href="{% url 'products:product_delete' product_slug=form.slug %}" class="btn btn-outline-info"> Delete</a>
+		<a href="{% url 'products:product_update' product_slug=form.slug %}" class="btn btn-outline-dark"> Update</a>
+		<a href="{% url 'products:product_delete' product_slug=form.slug %}" class="btn btn-outline-dark"> Delete</a>
 		<br><br>
 	{% endif %}
 
-	<a href="{% url 'products:product_list'%}" class="btn btn-outline-info"> Back</a>
+	<a href="{% url 'products:product_list'%}" class="btn btn-outline-dark"> Back</a>
 
 {% endblock %}
 				

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 {% block title %}
 New Product
@@ -6,9 +7,9 @@ New Product
 
 
 {% block code %}
-	 <form action="{% url 'products:product_create' %}" class="text-info" method="POST" enctype="multipart/form-data">
+	 <form action="{% url 'products:product_create' %}" class="text-dark" method="POST" enctype="multipart/form-data">
 		{% csrf_token %}
-		{{create_form.as_p}}
-    <input type="submit" value="Create" class="btn btn-info">
+		{{create_form|crispy}}
+    <input type="submit" value="Create" class="btn btn-dark">
 	</form>
 {% endblock code %}

@@ -19,7 +19,7 @@ List
 				<div class="btn-group" role="group" aria-label="Basic example">
 					<button onclick="favor({{x.id}})">
     					<span id="star_number-{{x.id}}">{{x.favoriteproduct_set.count}}</span>
-    					<i id="star_color-{{x.id}}" class="{% if x in my_favorites %}fas fa-star text-info{% else %} far fa-star{% endif %}"></i>
+    					<i id="star_color-{{x.id}}" class="{% if x in my_favorites %}fas fa-star text-dark{% else %} far fa-star{% endif %}"></i>
     				</button>   
 				</div>
 			</div>
@@ -39,12 +39,12 @@ List
 				console.log(data);
 				$("#star_number-"+id).text(data.count);
 				if (data.action==="favorite"){
-					$("#star_color-"+id).addClass("text-info");
+					$("#star_color-"+id).addClass("text-dark");
 					$("#star_color-"+id).addClass("fas");
 					$("#star_color-"+id).removeClass("far");
 				}
 				else{
-					$("#star_color-"+id).removeClass("text-info");
+					$("#star_color-"+id).removeClass("text-dark");
 					$("#star_color-"+id).removeClass("fas");
 					$("#star_color-"+id).addClass("far");
 				}

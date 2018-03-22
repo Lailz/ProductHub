@@ -45,7 +45,7 @@ class Product(models.Model):
 		super().save()
 
 class FavoriteProduct(models.Model):
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="favorites")
 	product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
 class FollowUser(models.Model):
@@ -62,8 +62,6 @@ class FollowUser(models.Model):
 	def __str__(self):
 		return    '{} follows {}'.format(self.follower, self.following)
 
-#User.add_to_class('following',models.ManyToManyField('self', through=Follow,related_name='followers', symmetrical=False))
-
 
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -79,9 +77,6 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
 	instance.profile.save()
-
-
-
 
 
 def create_slug(instance, new_slug=None):

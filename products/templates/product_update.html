@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 {% block title %}
 Product Update
@@ -6,9 +7,9 @@ Product Update
 
 
 {% block code %}
-	<form class = "text-info" action = "{% url 'products:product_update' product_slug=instance.slug %}" method="POST" enctype="multipart/form-data">
+	<form class = "text-dark" action = "{% url 'products:product_update' product_slug=instance.slug %}" method="POST" enctype="multipart/form-data">
 		{% csrf_token %}
-		{{form.as_p}}
+		{{form|crispy}}
 		<input class = "btn btn-dark" type="submit" value="Update">
 	</form>
 

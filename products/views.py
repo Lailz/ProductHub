@@ -81,16 +81,17 @@ def followinguser(request, user_id):
 	return render(request, 'following.html', context)
 
 def followeruser(request, user_id):
-	following = request.user.following.all()
+	us = User.objects.get(id=user_id)
+	follows = us.following.all()
 
 	context = {
 		"follows": follows,
 	}
-	return render(request, 'following.html', context)
+	return render(request, 'follower.html', context)
 
 def favorites(request, user_id):
-	us = Product.objects.get(id=user_id)
-	favs = us.name.all()
+	us = User.objects.get(id=user_id)
+	favs = us.username.all()
 
 	context = {
 		"favs": favs,
@@ -127,7 +128,7 @@ def productlist(request):
 		}
 		return render(request, 'product_list.html', context)
 	else:
-		
+
 		form = Product.objects.all()
 		user_obj = request.user
 
